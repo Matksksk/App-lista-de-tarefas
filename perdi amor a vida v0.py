@@ -4,6 +4,12 @@ from tkinter import ttk,messagebox,simpledialog
 from banco_master import inserir_lista,buscar_listas,atualizar_nome
 tarefas=[]
 global lista_atual
+def __init__():
+    box_lixeira.delete(0,tk.END)
+    if not os.path.exists("lixeira.txt"):
+        return
+    with open("lixeira.txt","x",encoding="utf-8"):
+        pass
 def carregar_tarefas():
     frame_lista.delete(0,tk.END)
     if not os.path.exists(lista_atual):
@@ -47,6 +53,7 @@ def renomear_lista():
     combo["values"]=buscar_listas()
     combo.set(nome_novo)
 def lixeira():
+    global box_lixeira 
     box_lixeira=tk.Toplevel(main)
     box_lixeira.geometry("200x300")
     box_lixeira.grid_columnconfigure(0,weight=1,uniform="col")
@@ -56,6 +63,10 @@ def lixeira():
     box_lixeira.grid_rowconfigure(1,weight=1)
     frame_lixeira=tk.Listbox(box_lixeira,bd=0.5,relief="ridge")
     frame_lixeira.grid(row=1,column=0,columnspan=2,sticky="nsew")
+    with open("lixeira.txt","r","utf=8") as arquivo:
+        for linha in arquivo:
+            if linha.strip():
+                box_lixeira.insert(tk.END,linha.strip())
 def recuperar_tarefa():
     pass
 def nova_tarefa():
